@@ -1,6 +1,6 @@
 node_modules
 .env
-*.json
+.DS_Store
 logs
 datasets
-.DS_Store
+sheets-service-account.json
