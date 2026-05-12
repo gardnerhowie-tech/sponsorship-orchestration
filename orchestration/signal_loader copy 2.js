@@ -7,37 +7,18 @@ const config = require("./sheet_config");
 // -----------------------------
 async function getAccessToken() {
 
-  let creds;
-
-  if (process.env.GOOGLE_SERVICE_ACCOUNT) {
-
-    creds = JSON.parse(
-      process.env.GOOGLE_SERVICE_ACCOUNT
-    );
-
-  } else {
-
-    creds = JSON.parse(
-      fs.readFileSync(
-        "../Host Responsiveness/sheets-service-account.json",
-        "utf8"
-      )
-    );
-  }
+  const creds = JSON.parse(
+    fs.readFileSync("../Host Responsiveness/sheets-service-account.json")
+  );
 
   const now = Math.floor(Date.now() / 1000);
 
-  const header = {
-    alg: "RS256",
-    typ: "JWT"
-  };
+  const header = { alg: "RS256", typ: "JWT" };
 
   const claim = {
     iss: creds.client_email,
-    scope:
-      "https://www.googleapis.com/auth/spreadsheets",
-    aud:
-      "https://oauth2.googleapis.com/token",
+    scope: "https://www.googleapis.com/auth/spreadsheets",
+    aud: "https://oauth2.googleapis.com/token",
     exp: now + 3600,
     iat: now
   };
