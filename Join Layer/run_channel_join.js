@@ -6,10 +6,16 @@ const config = require("../orchestration/sheet_config");
 const targetChannelId = process.argv[2] || null;
 
 function getAuthConfig() {
-  if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+
+  if (process.env.GOOGLE_SERVICE_ACCOUNT) {
+
     return {
-      keyFile: process.env.GOOGLE_APPLICATION_CREDENTIALS,
-      scopes: ["https://www.googleapis.com/auth/spreadsheets"]
+      credentials: JSON.parse(
+        process.env.GOOGLE_SERVICE_ACCOUNT
+      ),
+      scopes: [
+        "https://www.googleapis.com/auth/spreadsheets"
+      ]
     };
   }
 
@@ -19,12 +25,16 @@ function getAuthConfig() {
   );
 
   if (!fs.existsSync(localPath)) {
-    throw new Error(`Credentials file not found at: ${localPath}`);
+    throw new Error(
+      `Credentials file not found at: ${localPath}`
+    );
   }
 
   return {
     keyFile: localPath,
-    scopes: ["https://www.googleapis.com/auth/spreadsheets"]
+    scopes: [
+      "https://www.googleapis.com/auth/spreadsheets"
+    ]
   };
 }
 
