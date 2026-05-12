@@ -7,11 +7,23 @@ const config = require("./sheet_config");
 // AUTH (JWT → ACCESS TOKEN)
 // -----------------------------
 async function getAccessToken() {
-  const creds = JSON.parse(
+  let creds;
+
+if (process.env.GOOGLE_SERVICE_ACCOUNT) {
+
+  creds = JSON.parse(
+    process.env.GOOGLE_SERVICE_ACCOUNT
+  );
+
+} else {
+
+  creds = JSON.parse(
     fs.readFileSync(
-      path.resolve(__dirname, "../Host Responsiveness/sheets-service-account.json")
+      "../Host Responsiveness/sheets-service-account.json",
+      "utf8"
     )
   );
+}
 
   const now = Math.floor(Date.now() / 1000);
 
