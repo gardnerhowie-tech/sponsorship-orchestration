@@ -1,4 +1,9 @@
+console.log("STEP 1");
+
 const express = require("express");
+
+console.log("STEP 2");
+
 const bodyParser = require("body-parser");
 
 const { runExecution } =
@@ -9,9 +14,12 @@ const { scanChannel } =
 
 const app = express();
 
+console.log("STEP 3");
+
 app.use(bodyParser.json());
 
 function extractChannelId(url) {
+
   if (!url) return null;
 
   const match =
@@ -21,15 +29,19 @@ function extractChannelId(url) {
 }
 
 app.get("/", (req, res) => {
+
   res.status(200).json({
     success: true,
     service: "sponsorship-orchestration",
     status: "running"
   });
+
 });
 
 app.post("/tallyWebhook", async (req, res) => {
+
   try {
+
     const data = req.body;
 
     const channelUrl =
@@ -41,6 +53,7 @@ app.post("/tallyWebhook", async (req, res) => {
       extractChannelId(channelUrl);
 
     if (!channelId) {
+
       console.log("Invalid channel URL");
 
       return res
@@ -61,6 +74,7 @@ app.post("/tallyWebhook", async (req, res) => {
     res.status(200).send("Webhook processed");
 
   } catch (err) {
+
     console.error("Webhook error:");
     console.error(err);
 
@@ -69,10 +83,13 @@ app.post("/tallyWebhook", async (req, res) => {
 });
 
 app.post("/scan", async (req, res) => {
+
   try {
+
     const { channel_id } = req.body;
 
     if (!channel_id) {
+
       return res.status(400).json({
         success: false,
         error: "Missing channel_id"
@@ -84,30 +101,33 @@ app.post("/scan", async (req, res) => {
     );
 
     scanChannel(channel_id)
-  .then(() => {
 
-    console.log(
-      `=== FRONTEND SCAN COMPLETE: ${channel_id} ===\n`
-    );
+      .then(() => {
 
-  })
-  .catch((err) => {
+        console.log(
+          `=== FRONTEND SCAN COMPLETE: ${channel_id} ===\n`
+        );
 
-    console.error(
-      `=== FRONTEND SCAN FAILED: ${channel_id} ===`
-    );
+      })
 
-    console.error(err);
+      .catch((err) => {
 
-  });
+        console.error(
+          `=== FRONTEND SCAN FAILED: ${channel_id} ===`
+        );
 
-return res.status(200).json({
-  success: true,
-  started: true,
-  channel_id
-});
+        console.error(err);
+
+      });
+
+    return res.status(200).json({
+      success: true,
+      started: true,
+      channel_id
+    });
 
   } catch (err) {
+
     console.error("Scan endpoint error:");
     console.error(err);
 
@@ -120,7 +140,11 @@ return res.status(200).json({
 
 const PORT = process.env.PORT || 3000;
 
+console.log("STEP 4");
+
 app.listen(PORT, "0.0.0.0", () => {
+
+  console.log("STEP 5");
 
   console.log(
     `Orchestration server running on port ${PORT}`
