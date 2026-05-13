@@ -83,16 +83,29 @@ app.post("/scan", async (req, res) => {
       `\n=== FRONTEND SCAN RECEIVED: ${channel_id} ===`
     );
 
-    await scanChannel(channel_id);
+    scanChannel(channel_id)
+  .then(() => {
 
     console.log(
       `=== FRONTEND SCAN COMPLETE: ${channel_id} ===\n`
     );
 
-    return res.status(200).json({
-      success: true,
-      channel_id
-    });
+  })
+  .catch((err) => {
+
+    console.error(
+      `=== FRONTEND SCAN FAILED: ${channel_id} ===`
+    );
+
+    console.error(err);
+
+  });
+
+return res.status(200).json({
+  success: true,
+  started: true,
+  channel_id
+});
 
   } catch (err) {
     console.error("Scan endpoint error:");
