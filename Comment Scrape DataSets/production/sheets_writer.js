@@ -24,14 +24,22 @@ AUTH
 
 function getAuth() {
 
-  if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+  // RAILWAY ENV JSON
+  if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
+
+    const credentials = JSON.parse(
+      process.env.GOOGLE_SERVICE_ACCOUNT_JSON
+    );
 
     return new google.auth.GoogleAuth({
-      keyFile: process.env.GOOGLE_APPLICATION_CREDENTIALS,
-      scopes: ["https://www.googleapis.com/auth/spreadsheets"]
+      credentials,
+      scopes: [
+        "https://www.googleapis.com/auth/spreadsheets"
+      ]
     });
   }
 
+  // LOCAL FILE FALLBACK
   const fallback = path.resolve(
     __dirname,
     "../../Host Responsiveness/sheets-service-account.json"
@@ -43,7 +51,9 @@ function getAuth() {
 
   return new google.auth.GoogleAuth({
     keyFile: fallback,
-    scopes: ["https://www.googleapis.com/auth/spreadsheets"]
+    scopes: [
+      "https://www.googleapis.com/auth/spreadsheets"
+    ]
   });
 }
 
