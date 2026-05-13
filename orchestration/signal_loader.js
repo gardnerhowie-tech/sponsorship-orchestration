@@ -9,11 +9,11 @@ async function getAccessToken() {
 
   let creds;
 
-  if (process.env.GOOGLE_SERVICE_ACCOUNT) {
+  if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
 
-    creds = JSON.parse(
-      process.env.GOOGLE_SERVICE_ACCOUNT
-    );
+  creds = JSON.parse(
+    process.env.GOOGLE_SERVICE_ACCOUNT_JSON
+  );
 
   } else {
 
