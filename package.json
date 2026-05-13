@@ -1,13 +1,14 @@
 {
-  "name": "host-survey-webhook",
+  "name": "sponsorship-orchestration",
   "version": "1.0.0",
-  "description": "Webhook + execution layer for sponsorship matching system",
-  "main": "Host Survey/tallyWebhookServer.js",
+  "description": "Naro sponsorship orchestration backend",
+  "main": "server.js",
   "scripts": {
-    "start": "node \"Host Survey/tallyWebhookServer.js\""
+    "start": "node server.js"
   },
   "dependencies": {
     "axios": "^1.6.7",
+    "body-parser": "^1.20.2",
     "cors": "^2.8.6",
     "dotenv": "^16.4.5",
     "express": "^4.22.1",
