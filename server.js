@@ -30,6 +30,8 @@ function extractChannelId(url) {
 
 app.get("/", (req, res) => {
 
+  console.log("ROOT HEALTHCHECK HIT");
+
   res.status(200).json({
     success: true,
     service: "sponsorship-orchestration",
@@ -136,7 +138,7 @@ const PORT = process.env.PORT || 3000;
 
 console.log("STEP 4");
 
-app.listen(PORT, "0.0.0.0", () => {
+app.listen(Number(PORT), "0.0.0.0", () => {
 
   console.log("STEP 5");
 
