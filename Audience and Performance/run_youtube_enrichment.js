@@ -51,9 +51,16 @@ if (!SPREADSHEET_ID) {
 }
 
 async function getSheetsClient() {
+
+  const credentials = JSON.parse(
+    process.env.GOOGLE_SERVICE_ACCOUNT_JSON
+  );
+
   const auth = new google.auth.GoogleAuth({
-    keyFile: SERVICE_ACCOUNT_PATH,
-    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+    credentials,
+    scopes: [
+      "https://www.googleapis.com/auth/spreadsheets"
+    ]
   });
 
   return google.sheets({ version: "v4", auth });
