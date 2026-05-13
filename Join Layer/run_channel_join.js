@@ -7,12 +7,12 @@ const targetChannelId = process.argv[2] || null;
 
 function getAuthConfig() {
 
-  if (process.env.GOOGLE_SERVICE_ACCOUNT) {
+  if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
 
-    return {
-      credentials: JSON.parse(
-        process.env.GOOGLE_SERVICE_ACCOUNT
-      ),
+  return {
+    credentials: JSON.parse(
+      process.env.GOOGLE_SERVICE_ACCOUNT_JSON
+    ),
       scopes: [
         "https://www.googleapis.com/auth/spreadsheets"
       ]
