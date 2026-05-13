@@ -82,23 +82,31 @@ app.post("/tallyWebhook", async (req, res) => {
   }
 });
 
-app.post("/scan", async (req, res) => {
+app.post("/scan", (req, res) => {
 
-  try {
+  const { channel_id } = req.body;
 
-    const { channel_id } = req.body;
+  if (!channel_id) {
 
-    if (!channel_id) {
+    return res.status(400).json({
+      success: false,
+      error: "Missing channel_id"
+    });
+  }
 
-      return res.status(400).json({
-        success: false,
-        error: "Missing channel_id"
-      });
-    }
+  console.log(
+    `\n=== FRONTEND SCAN RECEIVED: ${channel_id} ===`
+  );
 
-    console.log(
-      `\n=== FRONTEND SCAN RECEIVED: ${channel_id} ===`
-    );
+  // RETURN RESPONSE IMMEDIATELY
+  res.status(202).json({
+    success: true,
+    started: true,
+    channel_id
+  });
+
+  // RUN SCAN AFTER RESPONSE
+  setImmediate(() => {
 
     scanChannel(channel_id)
 
@@ -120,22 +128,8 @@ app.post("/scan", async (req, res) => {
 
       });
 
-    return res.status(200).json({
-      success: true,
-      started: true,
-      channel_id
-    });
+  });
 
-  } catch (err) {
-
-    console.error("Scan endpoint error:");
-    console.error(err);
-
-    return res.status(500).json({
-      success: false,
-      error: err.message || "Scan failed"
-    });
-  }
 });
 
 const PORT = process.env.PORT || 3000;
