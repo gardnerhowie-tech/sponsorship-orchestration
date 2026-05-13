@@ -13,25 +13,20 @@ const SHEET_NAME = 'COMMENT_SIGNAL_OUTPUT';
 // GOOGLE AUTH
 // -----------------------------
 function getAuth() {
-  if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
-    return new google.auth.GoogleAuth({
-      keyFile: process.env.GOOGLE_APPLICATION_CREDENTIALS,
-      scopes: ["https://www.googleapis.com/auth/spreadsheets"]
-    });
-  }
 
-  const fallback = path.resolve(
-    __dirname,
-    "../../Host Responsiveness/sheets-service-account.json"
-  );
-
-  if (!fs.existsSync(fallback)) {
+  if (!process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
     throw new Error("Missing Google credentials");
   }
 
+  const credentials = JSON.parse(
+    process.env.GOOGLE_SERVICE_ACCOUNT_JSON
+  );
+
   return new google.auth.GoogleAuth({
-    keyFile: fallback,
-    scopes: ["https://www.googleapis.com/auth/spreadsheets"]
+    credentials,
+    scopes: [
+      "https://www.googleapis.com/auth/spreadsheets"
+    ]
   });
 }
 
