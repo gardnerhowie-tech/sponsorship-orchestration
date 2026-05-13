@@ -9,10 +9,10 @@ const config = require("./sheet_config");
 async function getAccessToken() {
   let creds;
 
-if (process.env.GOOGLE_SERVICE_ACCOUNT) {
+if (process.env.GOOGLE_SERVICE_ACCOUNT_JSON) {
 
   creds = JSON.parse(
-    process.env.GOOGLE_SERVICE_ACCOUNT
+    process.env.GOOGLE_SERVICE_ACCOUNT_JSON
   );
 
 } else {
