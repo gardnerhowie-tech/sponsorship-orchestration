@@ -8,9 +8,9 @@ import fs from "fs";
 
 async function getAccessToken() {
 
-  const creds = JSON.parse(
-    fs.readFileSync("./sheets-service-account.json")
-  );
+ const creds = JSON.parse(
+  process.env.GOOGLE_SERVICE_ACCOUNT_JSON
+);
 
   const jwtHeader = {
     alg: "RS256",
